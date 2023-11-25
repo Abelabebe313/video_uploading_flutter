@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "462865760925",
+    "firebase_url": "https://video-uploading-func-default-rtdb.firebaseio.com",
+    "project_id": "video-uploading-func",
+    "storage_bucket": "video-uploading-func.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462865760925:android:01937616b6866860e50a74",
+        "android_client_info": {
+          "package_name": "com.abelabebe313.video_uploading"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUVT_8P1kC710arn4hCP2KJZuHUsQ9dps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
