@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import '../service/utils.dart';
-import '../service/save_video.dart';
+import '../../data/datasources/utils.dart';
+import '../../data/datasources/save_video.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_uploading/models/video.dart';
+import 'package:video_uploading/features/domain/models/video.dart';
 
 class VideoUpload extends StatefulWidget {
   const VideoUpload({super.key});

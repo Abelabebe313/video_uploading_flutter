@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
-import 'package:video_uploading/screens/home_screen.dart';
-import 'package:video_uploading/screens/video_upload_screen.dart';
+import 'package:video_uploading/features/presentation/screens/home_screen.dart';
+import 'package:video_uploading/features/presentation/screens/video_upload_screen.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
@@ -55,16 +55,26 @@ class _BottomBarState extends State<BottomBar> {
                 activeIcon: Icon(FluentSystemIcons.ic_fluent_earth_filled),
                 label: 'Discovery'),
             BottomNavigationBarItem(
-                icon: Icon(FluentSystemIcons.ic_fluent_add_circle_regular,size: 32,),
-                activeIcon: Icon(FluentSystemIcons.ic_fluent_add_circle_filled,size: 32,),
+                icon: Icon(
+                  FluentSystemIcons.ic_fluent_add_circle_regular,
+                  size: 32,
+                ),
+                activeIcon: Icon(
+                  FluentSystemIcons.ic_fluent_add_circle_filled,
+                  size: 32,
+                ),
                 label: ''),
             BottomNavigationBarItem(
-                icon: Icon(FluentSystemIcons.ic_fluent_people_community_regular),
-                activeIcon: Icon(FluentSystemIcons.ic_fluent_people_community_filled),
+                icon:
+                    Icon(FluentSystemIcons.ic_fluent_people_community_regular),
+                activeIcon:
+                    Icon(FluentSystemIcons.ic_fluent_people_community_filled),
                 label: 'Group'),
             BottomNavigationBarItem(
-                icon: Icon(FluentSystemIcons.ic_fluent_channel_notifications_regular),
-                activeIcon: Icon(FluentSystemIcons.ic_fluent_channel_notifications_filled),
+                icon: Icon(
+                    FluentSystemIcons.ic_fluent_channel_notifications_regular),
+                activeIcon: Icon(
+                    FluentSystemIcons.ic_fluent_channel_notifications_filled),
                 label: 'Notification'),
           ],
         ));
