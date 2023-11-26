@@ -25,9 +25,14 @@ class CommentCardRouteState extends State<CommentCard> {
   @override
   void initState() {
     super.initState();
-    items.add(TextMessage.time(items.length, "Hai..", false,
-        items.length % 5 == 0, formatDateTimeDifference(DateTime.now())));
-    items.add(TextMessage.time(items.length, "Hello!", true,
+    items.add(TextMessage.time(
+        items.length,
+        "Abebe",
+        "This is very amazing, thank you for sharing",
+        false,
+        items.length % 5 == 0,
+        formatDateTimeDifference(DateTime.now())));
+    items.add(TextMessage.time(items.length, "Helen", "Wow amazing", true,
         items.length % 5 == 0, formatDateTimeDifference(DateTime.now())));
   }
 
@@ -118,6 +123,7 @@ class CommentCardRouteState extends State<CommentCard> {
     setState(() {
       adapter.insertSingleItem(TextMessage.time(
           adapter.getItemCount(),
+          "Michot",
           message,
           true,
           adapter.getItemCount() % 5 == 0,

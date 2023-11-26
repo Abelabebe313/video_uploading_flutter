@@ -5,6 +5,7 @@ import '../../../core/data/my_colors.dart';
 import '../../../core/data/my_text.dart';
 import '../../../core/utils/circle_image.dart';
 import '../../domain/models/text_message.dart';
+import 'random_profile_pic.dart';
 
 class TextChatAdapter {
   List items = <TextMessage>[];
@@ -47,20 +48,17 @@ class TextChatAdapter {
         children: [
           Row(
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8.0),
-                child: CircleImage(
-                  size: 40,
-                  imageProvider: AssetImage('assets/images/profile_2.png'),
-                ),
+                child: RandomColorCircleAvatar(),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Betty Alemu",
+                    Text(
+                      item.name,
                       style: TextStyle(
                         fontSize: 15,
                         color: Color.fromARGB(255, 26, 26, 26),
@@ -135,7 +133,7 @@ class TextChatAdapter {
                       width: 5,
                     ),
                     const Text(
-                      "340",
+                      "0",
                       style: TextStyle(
                         fontSize: 15,
                         color: Color.fromARGB(255, 36, 36, 36),
@@ -152,7 +150,7 @@ class TextChatAdapter {
                       width: 5,
                     ),
                     const Text(
-                      "10",
+                      "0",
                       style: TextStyle(
                         fontSize: 15,
                         color: Color.fromARGB(255, 48, 48, 48),
