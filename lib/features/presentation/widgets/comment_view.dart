@@ -14,13 +14,16 @@ class Comments extends StatefulWidget {
 
 class _CommentsState extends State<Comments> {
   late Query databaseReference;
-  
+
   List<Map<dynamic, dynamic>> comments = [];
   @override
   initState() {
     super.initState();
-    databaseReference =
-      FirebaseDatabase.instance.ref().child('Comments').orderByChild('postId').equalTo(widget.post_id);
+    databaseReference = FirebaseDatabase.instance
+        .ref()
+        .child('Comments')
+        .orderByChild('postId')
+        .equalTo(widget.post_id);
     loadComments();
   }
 
@@ -69,9 +72,9 @@ class _CommentsState extends State<Comments> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
-        title: Text('Comments'),
+        title: const Text('Comments'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -90,7 +93,7 @@ class _CommentsState extends State<Comments> {
                   String comment = commentData['comment'];
                   String commentedAt = commentData['commentedAt'];
                   if (comments.length == null) {
-                    return Center(
+                    return const Center(
                       child: Text('No Comments'),
                     );
                   } else {

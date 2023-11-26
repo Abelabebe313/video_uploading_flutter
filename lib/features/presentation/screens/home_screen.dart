@@ -4,8 +4,11 @@ import 'dart:developer' as developer;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:video_uploading/screens/video_upload_screen.dart';
-import 'package:video_uploading/widgets/video_card.dart';
+import 'package:video_uploading/features/presentation/screens/video_upload_screen.dart';
+import 'package:video_uploading/features/presentation/widgets/video_card.dart';
+
+import '../../data/datasources/remote_data_source.dart';
+import '../../data/models/post.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,11 +27,27 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     loadPosts();
+    // getPostsData();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<void> getPostsData() async {
+    try {
+      final remoteDataSource = RemoteDataSource();
+      final List<Post> postList = await remoteDataSource.getAllPost();
+
+      setState(() {
+        // Convert the list of Post objects to the format you need
+        posts = postList.map((post) => post.toJson()).toList();
+      });
+    } catch (e) {
+      // Handle errors
+      print('Error fetching posts: $e');
+    }
   }
 
   Future<void> signOut() async {
@@ -81,16 +100,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFFF0F0FB),
+      backgroundColor: const Color(0xffF8FAFF),
       appBar: AppBar(
-        backgroundColor: Color(0XFFF0F0FB),
-        title: const Text('Home video Home'),
+        backgroundColor: const Color(0xffF8FAFF),
+        title: const Text(
+          'Akababi',
+          style: TextStyle(
+              fontFamily: "DancingScript",
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 25),
+        ),
         actions: [
           IconButton(
             onPressed: () async {
               await signOut();
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.person),
           )
         ],
       ),
