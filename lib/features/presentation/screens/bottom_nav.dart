@@ -3,6 +3,10 @@ import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:video_uploading/features/presentation/screens/home_screen.dart';
 import 'package:video_uploading/features/presentation/screens/video_upload_screen.dart';
 
+import 'Notification/notification.dart';
+import 'discover/discover.dart';
+import 'group/group.dart';
+
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
 
@@ -14,10 +18,10 @@ class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text('Discover'),
+    DiscoverPage(),
     VideoUpload(),
-    Text('Group'),
-    Text('Notification')
+    GroupPage(),
+    NotificationPage()
   ];
 
   void _onItemTapped(int index) {

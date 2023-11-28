@@ -19,6 +19,7 @@ class RemoteDataSource implements PostRemoteDataSource {
         headers: {
           'Authorization':
               'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlNKWmFvVDBYWnFkb1BKMnpOWlJ4UyJ9.eyJpc3MiOiJodHRwczovL3JlZHdvbGZzb2Z0LnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NTYyNGI5ZjE3YjRiZGI1MDExMzUxZDgiLCJhdWQiOlsiaHR0cHM6Ly9ha2FiYWJpLWFwaS5jb20iLCJodHRwczovL3JlZHdvbGZzb2Z0LnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3MDA5NDA3NTAsImV4cCI6MTcwMzIyNzE0OCwiYXpwIjoiVnFmVkdYSlNUWXdQMkZJa2RkWFYxMDZiMkJyRXF5aFIiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZ3R5IjoicGFzc3dvcmQifQ.XwbY_-WOCBX4CiZ2MUNnTNEHY2FiQQG1FIt2ysDHgN6P7YjXdVeZUyTuzRgEKvqs1Uxp5HLtaLpYtiyoRpnPRmwEjBErQjBgke7GDvnMT9D4iRXT4bAFUjCUq8W5RIXk7vsMs91oMimGJcGu_YqHyGHnpfte7DflT0dqr-bP-48ON7pu0WBZHMb8KfwEmnzckYbVDtzo3EAvBHD2eMotgrdQo6t3XNfdz9TeEvs2yiOxhtv2OfUSffUBVJqSCwrxNVf_8OeWCLo98K4JmKecIpYKgzMBZ4E8-Xs-y1VthQdBHLp_NZ-NCpvrDAX3H9XOye0LQWxROFR9e4DvcMsG0A',
+          'Content-Type': 'application/json',
         },
       );
       print('Response Body: ${response.body}');
@@ -26,7 +27,7 @@ class RemoteDataSource implements PostRemoteDataSource {
 
       if (response.statusCode == 200 && responseData['success'] == true) {
         ////  log("fetched: $responseData");
-        return responseData['data'];
+        return responseData['posts'];
       } else {
         print("error: $responseData");
         final errorMessage =

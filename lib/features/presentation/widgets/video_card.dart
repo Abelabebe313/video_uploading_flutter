@@ -1,11 +1,12 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_uploading/features/domain/models/video.dart';
-import 'package:video_uploading/features/presentation/screens/comments/show_voices.dart';
+import 'package:video_uploading/features/presentation/screens/comments/show_voice_comment.dart';
 import 'package:video_uploading/features/data/datasources/like_video.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_uploading/features/data/datasources/post_comment.dart';
@@ -39,6 +40,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
   List<Map<dynamic, dynamic>> likes = [];
   bool isPlaying = false;
   bool isLiked = false;
+  String like_no = "0";
   // late BuildContext _scaffoldCtx;
 
   late PersistentBottomSheetController sheetController;
@@ -66,6 +68,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
       videoPlayerController: _videoPlayerController,
       autoInitialize: true,
       looping: true,
+      autoPlay: true,
     );
     databaseReference = FirebaseDatabase.instance
         .ref()
@@ -174,7 +177,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
                   children: [
                     // share
                     const Text(
-                      '5k',
+                      '1',
                       style: TextStyle(color: Colors.black),
                     ),
                     IconButton(
@@ -192,7 +195,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
                     const Spacer(),
                     // comment
                     const Text(
-                      '5k',
+                      '2',
                       style: TextStyle(color: Colors.black),
                     ),
                     IconButton(
@@ -216,7 +219,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
                     const Spacer(),
                     // voice
                     const Text(
-                      '5k',
+                      '0',
                       style: TextStyle(color: Colors.black),
                     ),
                     IconButton(
@@ -242,7 +245,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
 
                     // Like
                     Text(
-                      '${widget.Likes}',
+                      like_no,
                       style: const TextStyle(color: Colors.black),
                     ), // Like number goes here
                     IconButton(
@@ -251,6 +254,9 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
                         await LikePost(widget.Likes + 1, widget.post_id);
                         setState(() {
                           isLiked = !isLiked;
+                          isLiked
+                              ? like_no = (widget.Likes + 1).toString()
+                              : like_no = (int.parse(like_no) - 1).toString();
                         });
                       },
                       icon: Icon(
@@ -318,7 +324,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
     sheetController2 = showBottomSheet(
         context: scaffoldCtx,
         builder: (BuildContext bc) {
-          return voiceCard(context);
+          return VoiceCommentCard();
         });
     sheetController2.closed.then((value) {
       setState(() {

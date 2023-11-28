@@ -42,7 +42,7 @@ class StoreData {
         "created_at": '${DateTime.now()}',
         "likes": 0,
       });
-    } 
+    }
     // await firestore.collection('videos').add({
     //   'url': videoDownloadUrl,
     //   'createdAt': FieldValue.serverTimestamp(),

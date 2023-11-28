@@ -1,18 +1,18 @@
 import 'dart:math';
-import 'package:expandable_text/expandable_text.dart';
-import 'package:flutter/material.dart';
-import '../../domain/models/text_message.dart';
 
-class TextChatAdapter {
-  List items = <TextMessage>[];
+import 'package:flutter/material.dart';
+import 'package:video_uploading/features/domain/models/voice_message.dart';
+import 'package:voice_message_package/voice_message_package.dart';
+
+class VoiceChatAdapter {
+  List items = <VoiceMessageModel>[];
   BuildContext context;
   Function onItemClick;
   ScrollController scrollController = ScrollController();
-  Color randomColor = getRandomColor();
 
-  TextChatAdapter(this.context, this.items, this.onItemClick);
+  VoiceChatAdapter(this.context, this.items, this.onItemClick);
 
-  void insertSingleItem(TextMessage msg) {
+  void insertSingleItem(VoiceMessageModel msg) {
     int insertIndex = items.length;
     items.insert(insertIndex, msg);
     scrollController.animateTo(scrollController.position.maxScrollExtent + 100,
@@ -20,20 +20,29 @@ class TextChatAdapter {
   }
 
   Widget getView() {
-    return Container(
-      child: ListView.builder(
-        itemCount: items.length,
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        controller: scrollController,
-        itemBuilder: (context, index) {
-          TextMessage item = items[index];
-          return buildListItemView(index, item);
-        },
-      ),
-    );
+    return items.isEmpty
+        ? const Center(
+            child: Text(
+              'No comments',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          )
+        : Container(
+            child: ListView.builder(
+              itemCount: items.length,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              controller: scrollController,
+              itemBuilder: (context, index) {
+                VoiceMessageModel item = items[index];
+                return buildListItemView(index, item);
+              },
+            ),
+          );
   }
 
-  Widget buildListItemView(int index, TextMessage item) {
+  Widget buildListItemView(int index, VoiceMessageModel item) {
+    Color randomColor = getRandomColor();
+
     return Container(
       padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
       decoration: BoxDecoration(
@@ -51,7 +60,7 @@ class TextChatAdapter {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: 20,
-                    backgroundColor: randomColor,
+                    backgroundColor: item.color,
                     child: const Icon(
                       Icons.person,
                       color: Colors.white,
@@ -87,37 +96,15 @@ class TextChatAdapter {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 45, right: 8, top: 2),
-            child: ExpandableText(
-              item.content,
-              animation: true,
-              collapseOnTextTap: true,
-              linkColor: const Color.fromARGB(255, 68, 186, 254),
-              expandText: "More",
-              collapseText: 'show less',
-              maxLines: 3,
-              style: const TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 14,
-                color: Color.fromARGB(255, 37, 37, 37),
-              ),
-              onHashtagTap: (name) {
-                // showHashtag(name)
-              },
-              hashtagStyle: const TextStyle(
-                color: Color(0xffFEBE44),
-              ),
-              onMentionTap: (username) {
-                // showProfile(username)
-              },
-              mentionStyle: const TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
-              urlStyle: const TextStyle(
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.only(left: 45, right: 8, top: 2),
+              child: VoiceMessage(
+                audioSrc:
+                    'https://tg-cloud-file-small-file.ajz.workers.dev/music/file_119763.mp3?file_name=test-audio.mp3&expire=1701165308&signature=yA1FBlPEWxx1jljJF4qGDGmnXVNp%2BCYQAnaQxXNAhlk%3D',
+                played: false,
+                me: true,
+                meBgColor: Colors.blueAccent,
+                onPlay: () {}, // Do something when voice played.
+              )),
           Padding(
             padding: const EdgeInsets.only(left: 35, right: 8, top: 5),
             child: Row(
