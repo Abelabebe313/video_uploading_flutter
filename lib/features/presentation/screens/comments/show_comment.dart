@@ -8,6 +8,7 @@ import '../../../../../../../core/utils/circle_image.dart';
 import '../../../../core/utils/human_readable_time.dart';
 import '../../../domain/models/text_message.dart';
 import '../../widgets/text_chat_adapter.dart';
+import 'package:intl/intl.dart';
 
 class CommentCard extends StatefulWidget {
   CommentCard();
@@ -25,15 +26,19 @@ class CommentCardRouteState extends State<CommentCard> {
   @override
   void initState() {
     super.initState();
+    String dateString = "Nov 27, 2023";
+    DateFormat format = DateFormat("MMM d, yyyy");
+    DateTime dateTime = format.parse(dateString);
+
     items.add(TextMessage.time(
         items.length,
         "Abebe",
         "This is very amazing, thank you for sharing",
         false,
         items.length % 5 == 0,
-        formatDateTimeDifference(DateTime.now())));
+        formatDateTimeDifference(dateTime)));
     items.add(TextMessage.time(items.length, "Helen", "Wow amazing", true,
-        items.length % 5 == 0, formatDateTimeDifference(DateTime.now())));
+        items.length % 5 == 0, formatDateTimeDifference(dateTime)));
   }
 
   @override
@@ -62,7 +67,7 @@ class CommentCardRouteState extends State<CommentCard> {
                 ),
                 const Center(
                   child: Text(
-                    '4 Comments',
+                    'Comments',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
