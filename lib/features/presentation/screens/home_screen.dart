@@ -4,6 +4,7 @@ import 'dart:developer' as developer;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:video_uploading/features/presentation/screens/video_upload_screen.dart';
 import 'package:video_uploading/features/presentation/widgets/video_card.dart';
 
@@ -23,11 +24,38 @@ class _HomePageState extends State<HomePage> {
       FirebaseDatabase.instance.ref().child('Posts');
 
   List<Map<dynamic, dynamic>> posts = [];
+  final remoteDataSource = RemoteDataSource();
+
   @override
   void initState() {
     super.initState();
-    loadPosts();
+    // loadPosts();
+    checkAndRequestPermission();
     getPostsData();
+  }
+
+  Future<void> checkAndRequestPermission() async {
+    var status = await Permission.location.status;
+
+    if (status.isGranted) {
+      // Permission already granted
+      print('Location permission already granted');
+    } else {
+      // Permission not granted, request it
+      await requestLocationPermission();
+    }
+  }
+
+  Future<void> requestLocationPermission() async {
+    var status = await Permission.location.request();
+
+    if (status.isGranted) {
+      // Permission granted, you can now use location services
+      print('Location permission granted');
+    } else {
+      // Permission denied
+      print('Location permission denied');
+    }
   }
 
   @override
@@ -37,16 +65,16 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> getPostsData() async {
     try {
-      final remoteDataSource = RemoteDataSource();
       final List<Post> postList = await remoteDataSource.getAllPost();
-
+      print(postList.runtimeType);
+      print(postList);
       setState(() {
         // Convert the list of Post objects to the format you need
         posts = postList.map((post) => post.toJson()).toList();
       });
     } catch (e) {
       // Handle errors
-      print('Error fetching posts: $e');
+      print('HomeError fetching posts: $e');
     }
   }
 
@@ -131,12 +159,13 @@ class _HomePageState extends State<HomePage> {
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   Map<dynamic, dynamic> post = posts[index];
-                  String id = post['post_id'];
-                  String author = post['author'];
-                  String videoLink = post['videoLink'];
-                  String title = post['title'];
-                  String time = post['created_at'];
-                  int likes = post['likes'];
+                  int id = post['id'];
+                  String author = "post['author']";
+                  String videoLink =
+                      "https://api.redwolfsoft.com/" + post['videoContents'][0];
+                  String title = "post['title']";
+                  String time = post['createdAt'];
+                  int likes = 0;
 
                   return Container(
                     width: MediaQuery.of(context).size.width,

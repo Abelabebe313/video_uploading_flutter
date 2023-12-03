@@ -117,10 +117,38 @@ class _VideoUploadState extends State<VideoUpload> {
         const SizedBox(
           height: 20,
         ),
-        ElevatedButton(
-          onPressed: _uploadVideo,
-          child: const Text('Upload Video'),
-        )
+        ElevatedButton.icon(
+          onPressed: () async {
+            // Show progress dialog
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 10),
+                      Text("Uploading..."),
+                    ],
+                  ),
+                );
+              },
+            );
+
+            // Simulate upload progress for 5 seconds
+            await Future.delayed(Duration(seconds: 5));
+
+            // Hide progress dialog
+            Navigator.pop(context);
+
+            // Call your upload function
+            _uploadVideo();
+          },
+          icon: Icon(Icons.upload_outlined),
+          label: Text('Upload Video'),
+        ),
       ],
     );
   }

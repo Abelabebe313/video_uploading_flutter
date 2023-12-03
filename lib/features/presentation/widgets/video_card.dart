@@ -22,7 +22,7 @@ class PlayVideoCard extends StatefulWidget {
       required this.videoName,
       required this.Likes});
 
-  final String post_id;
+  final int post_id;
   final String videoURL;
   final String videoName;
   final int Likes;
