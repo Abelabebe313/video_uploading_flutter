@@ -304,7 +304,8 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
                           IconButton(
                             onPressed: () async {
                               print('Like pressed');
-                              // await LikePost(widget.Likes + 1, widget.post_id);
+                              await LikePost(widget.post_id!);
+
                               setState(() {
                                 isLiked = !isLiked;
                                 isLiked
@@ -455,7 +456,7 @@ class _PlayVideoCardState extends State<PlayVideoCard> {
     sheetController = showBottomSheet(
         context: scaffoldCtx,
         builder: (BuildContext bc) {
-          return CommentCard();
+          return CommentCard(id: widget.post_id!);
         });
     sheetController.closed.then((value) {
       setState(() {
