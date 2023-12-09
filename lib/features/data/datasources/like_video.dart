@@ -13,7 +13,7 @@ User? user = FirebaseAuth.instance.currentUser;
 
 // ignore: non_constant_identifier_names
 
-Future<void> LikePost(int like, int postId) async {
+Future<void> LikePost(int? like, int postId) async {
   DatabaseReference dref = FirebaseDatabase.instance.ref().child("Likes");
   DatabaseReference newPostRef = dref.push();
 // Now, upload the data to the new child reference
