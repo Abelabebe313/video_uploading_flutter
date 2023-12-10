@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:social_media_audio_recorder/social_media_audio_recorder.dart';
 import 'package:video_uploading/core/data/my_colors.dart';
 import 'package:video_uploading/features/domain/models/voice_message.dart';
 import 'package:video_uploading/features/presentation/widgets/voice_chat_adapter.dart';
@@ -12,7 +13,13 @@ class VoiceCommentCard extends StatefulWidget {
   _VoiceCommentCardState createState() => _VoiceCommentCardState();
 }
 
-class _VoiceCommentCardState extends State<VoiceCommentCard> {
+class _VoiceCommentCardState extends State<VoiceCommentCard>
+    with SingleTickerProviderStateMixin {
+  AnimationController? controller;
+
+  String filepath = "";
+  bool readOnly = false;
+  // ----
   final TextEditingController inputController = TextEditingController();
   List<VoiceMessageModel> items = [];
   late VoiceChatAdapter adapter;
@@ -22,23 +29,12 @@ class _VoiceCommentCardState extends State<VoiceCommentCard> {
 
   @override
   void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
     super.initState();
-    // items.add(VoiceMessageModel.time(
-    //     items.length,
-    //     "Abebe",
-    //     "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
-    //     Color.fromARGB(255, 21, 21, 21),
-    //     false,
-    //     items.length % 5 == 0,
-    //     formatDateTimeDifference(DateTime.now())));
-    // items.add(VoiceMessageModel.time(
-    //     items.length,
-    //     "Helen",
-    //     "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
-    //     Color.fromARGB(255, 21, 21, 21),
-    //     true,
-    //     items.length % 5 == 0,
-    //     formatDateTimeDifference(DateTime.now())));
   }
 
   @override
@@ -88,63 +84,51 @@ class _VoiceCommentCardState extends State<VoiceCommentCard> {
                     color: Colors.white,
                     alignment: Alignment.centerLeft,
                     child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon:
-                              const Icon(Icons.attach_file, color: Colors.grey),
-                          onPressed: () {},
-                        ),
+                      children: [
                         Expanded(
-                          child: TextField(
-                            controller: inputController,
-                            maxLines: 1,
-                            minLines: 1,
-                            keyboardType: TextInputType.multiline,
-                            enabled:
-                                false, // Set to false to disable the text field
-                            decoration: InputDecoration.collapsed(
-                              hintText: isRecording
-                                  ? "${formatDuration(recordDuration)} Recording Start.."
-                                  : 'Add audio comment',
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 19),
+                            child: Container(
+                              height: 55,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white.withOpacity(0.2),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: TextField(
+                                  readOnly: readOnly,
+                                  maxLines: null,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
                             ),
-                            onChanged: (term) {},
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(
-                            currentIcon,
-                            color: isRecording ? Colors.red : Colors.blue,
-                          ),
-                          onPressed: () {
+                        const SizedBox(width: 4),
+                        RecordButton(
+                          color: const Color.fromARGB(255, 0, 60, 163),
+                          allTextColor: Colors.white,
+                          controller: controller!,
+                          arrowColor: Colors.white,
+                          onRecordEnd: (String value) {
                             setState(() {
-                              if (isRecording) {
-                                // Pause recording logic
-                                setState(() {
-                                  isRecording = false;
-                                  currentIcon = Icons.mic;
-                                });
-                                // Add your logic to handle the recorded voice here
-                                print('Recording paused');
-                                sendMessage();
-                              } else {
-                                // Start recording logic
-                                setState(() {
-                                  isRecording = true;
-                                  currentIcon = Icons.stop;
-                                  recordDuration = 0;
-                                });
-                                // Start a timer to update the record duration
-                                Timer.periodic(Duration(seconds: 1), (timer) {
-                                  if (!isRecording) {
-                                    timer.cancel();
-                                  } else {
-                                    setState(() {
-                                      recordDuration++;
-                                    });
-                                  }
-                                });
-                                print('Recording started');
-                              }
+                              filepath = value;
+                              readOnly = false;
+                            });
+                            sendMessage();
+                          },
+                          onRecordStart: () {
+                            setState(() {
+                              readOnly = true;
+                            });
+                          },
+                          onCancelRecord: () {
+                            setState(() {
+                              readOnly = false;
                             });
                           },
                         ),
@@ -163,14 +147,14 @@ class _VoiceCommentCardState extends State<VoiceCommentCard> {
   void onItemClick(int index, String obj) {}
 
   void sendMessage() {
-    String message = inputController.text;
+    String message = filepath;
     inputController.clear();
     setState(() {
       adapter.insertSingleItem(VoiceMessageModel.time(
           adapter.getItemCount(),
           "Michot",
           message,
-          Color.fromARGB(255, 6, 22, 129),
+          const Color.fromARGB(255, 6, 22, 129),
           true,
           adapter.getItemCount() % 5 == 0,
           formatDateTimeDifference(DateTime.now())));

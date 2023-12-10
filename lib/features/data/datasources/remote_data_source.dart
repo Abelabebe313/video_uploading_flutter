@@ -2,9 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:geolocator/geolocator.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path/path.dart' as path;
 import 'package:video_uploading/features/data/models/post.dart';
 import 'package:http/http.dart' as http;
 import 'data_source_api.dart';
@@ -287,8 +284,7 @@ class RemoteDataSource implements PostRemoteDataSource {
         print(responseData);
         return {
           'status': 'success',
-          'message':
-              '======**********react added successfully********========'
+          'message': '======**********react added successfully********========'
         };
       } else {
         print(response.reasonPhrase);
