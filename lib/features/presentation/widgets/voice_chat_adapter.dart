@@ -9,7 +9,7 @@ class VoiceChatAdapter {
   BuildContext context;
   Function onItemClick;
   ScrollController scrollController = ScrollController();
-
+  int currentlyPlayingIndex = -1;
   VoiceChatAdapter(this.context, this.items, this.onItemClick);
 
   void insertSingleItem(VoiceMessageModel msg) {
@@ -98,13 +98,11 @@ class VoiceChatAdapter {
           Padding(
               padding: const EdgeInsets.only(left: 45, right: 8, top: 2),
               child: VoiceMessage(
-                audioSrc:
-                    'https://tg-cloud-file-small-file.ajz.workers.dev/music/file_119763.mp3?file_name=test-audio.mp3&expire=1701165308&signature=yA1FBlPEWxx1jljJF4qGDGmnXVNp%2BCYQAnaQxXNAhlk%3D',
-                played: false,
-                me: true,
-                meBgColor: Colors.blueAccent,
-                onPlay: () {}, // Do something when voice played.
-              )),
+                  audioSrc: item.content,
+                  played: false,
+                  me: true,
+                  meBgColor: Colors.blueAccent,
+                  onPlay: () {})),
           Padding(
             padding: const EdgeInsets.only(left: 35, right: 8, top: 5),
             child: Row(
@@ -165,6 +163,22 @@ class VoiceChatAdapter {
         ],
       ),
     );
+  }
+
+  void stopCurrentlyPlayingVoice() {
+    if (currentlyPlayingIndex != -1) {
+      // Stop the currently playing voice (you need to implement this part)
+      // For example, if you are using some audio player library:
+      // audioPlayer.stop();
+    }
+  }
+
+  void startPlayingVoice(int index) {
+    currentlyPlayingIndex = index;
+
+    // Start playing the selected voice (you need to implement this part)
+    // For example, if you are using some audio player library:
+    // audioPlayer.play(items[index].content);
   }
 
   int getItemCount() => items.length;

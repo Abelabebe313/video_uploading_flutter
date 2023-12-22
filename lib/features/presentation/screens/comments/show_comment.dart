@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:video_uploading/features/data/datasources/remote_data_source.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 import 'package:skeletons/skeletons.dart';
 import '../../../../../../../core/data/my_colors.dart';
@@ -11,7 +12,8 @@ import '../../widgets/text_chat_adapter.dart';
 import 'package:intl/intl.dart';
 
 class CommentCard extends StatefulWidget {
-  CommentCard();
+  final int id;
+  CommentCard({required this.id});
 
   @override
   CommentCardRouteState createState() => CommentCardRouteState();
@@ -23,6 +25,7 @@ class CommentCardRouteState extends State<CommentCard> {
   final TextEditingController inputController = TextEditingController();
   List<TextMessage> items = [];
   late TextChatAdapter adapter;
+  final remoteDataSource = RemoteDataSource();
   @override
   void initState() {
     super.initState();
@@ -121,10 +124,23 @@ class CommentCardRouteState extends State<CommentCard> {
 
   void onItemClick(int index, String obj) {}
 
-  void sendMessage() {
+  void sendMessage() async{
     String message = inputController.text;
     inputController.clear();
     showSend = false;
+    Map<dynamic, dynamic> commentData = {
+      'text': '${message}',
+      'post_id': widget.id,
+    };
+    Map<dynamic, dynamic> result = await remoteDataSource.commentPost(commentData);
+    if (result['status'] == 'success') {
+          print('========>>>>>comment uploaded successfully<<<<==========');
+          // Do something on success, if needed
+        } else {
+          print(
+              '========>>>>>Failed to comment: ${result['message']}<<<<==========');
+          // Handle error, if needed
+        }
     setState(() {
       adapter.insertSingleItem(TextMessage.time(
           adapter.getItemCount(),

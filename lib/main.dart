@@ -5,9 +5,11 @@ import 'package:video_uploading/features/presentation/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:video_uploading/features/data/datasources/auth.dart';
 import 'firebase_options.dart';
+import 'package:social_media_audio_recorder/social_media_audio_recorder.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SocialMediaFilePath.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // await Firebase.initializeApp();""
   runApp(const MyApp());
